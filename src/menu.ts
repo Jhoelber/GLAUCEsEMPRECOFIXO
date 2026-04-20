@@ -18,13 +18,13 @@ export const menuItems: MenuItem[] = [
     name: "Bolinha de Queijo",
     category: "fritos",
     price: "R$ 55,00",
-    image: "/menu/p1-2.jpg",
+    image: "/menu/p1-1.jpg",
   },
   {
     name: "Coxinha de Frango",
     category: "fritos",
     price: "R$ 55,00",
-    image: "/menu/p1-4.png",
+    image: "/menu/p1-2.jpg",
   },
   {
     name: "Quibe",
@@ -36,7 +36,7 @@ export const menuItems: MenuItem[] = [
     name: "Risolis",
     category: "fritos",
     price: "R$ 55,00",
-    image: "/menu/p2-4.png",
+    image: "/menu/p1-4.png",
   },
   {
     name: "Enroladinho de Salsicha",
