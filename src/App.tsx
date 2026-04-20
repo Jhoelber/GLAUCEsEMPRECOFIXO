@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { categoryLabels, menuItems, type Category, type MenuItem } from "./menu";
 
 const categories: Array<Category | "todos"> = ["todos", "fritos", "assados", "doces"];
@@ -218,8 +219,9 @@ function App() {
   };
 
   return (
-    <main className="min-h-screen bg-[#080806] pb-28 text-[#f5efe4] lg:pb-0">
-      <section className="relative overflow-hidden border-b border-[#2a241a] bg-[#080806]">
+    <>
+      <main className="min-h-screen bg-[#080806] pb-28 text-[#f5efe4] lg:pb-0">
+        <section className="relative overflow-hidden border-b border-[#2a241a] bg-[#080806]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_78%_12%,rgba(215,180,106,0.18),transparent_34%),linear-gradient(90deg,rgba(8,8,6,1)_0%,rgba(8,8,6,0.94)_48%,rgba(8,8,6,0.68)_100%)]" />
         <div className="relative grid w-full gap-8 px-5 py-6 md:px-8 lg:grid-cols-[minmax(0,1fr)_430px] lg:px-12 xl:px-16 2xl:px-20">
           <div>
@@ -530,7 +532,9 @@ function App() {
           </div>
         </div>
       ) : null}
-    </main>
+      </main>
+      <Analytics />
+    </>
   );
 }
 
