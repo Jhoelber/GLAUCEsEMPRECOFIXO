@@ -20,14 +20,14 @@ function getItemKey(item: MenuItem) {
 function getOrderUrl(selectedItems: MenuItem[]) {
   const lines =
     selectedItems.length > 0
-      ? selectedItems.map((item) => `- ${item.name}`)
+      ? selectedItems.map((item) => `- ${item.name} (${item.price} o cento)`)
       : ["Gostaria de conhecer as opções do cardápio."];
 
   const message = [
     "Olá, vim pelo cardápio digital da D'Glauci Doces e Salgados.",
     "Tenho interesse nos seguintes itens:",
     ...lines,
-    "Gostaria de consultar quantidades, sabores disponíveis e valores.",
+    "Gostaria de consultar quantidades personalizadas, sabores disponíveis e valores finais.",
   ].join("\n");
 
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -49,8 +49,9 @@ function InterestPanel({ selectedItems, orderUrl, onRemoveItem }: InterestPanelP
           : `${selectedItems.length} item${selectedItems.length > 1 ? "s" : ""}`}
       </h2>
       <p className="mt-3 text-sm leading-6 text-[#bdb3a0]">
-        Selecione os itens que chamaram atenção. Quantidade, sabores disponíveis e valores são
-        combinados pelo WhatsApp.
+        Selecione os itens que chamaram atenção. O preço exibido é referência para cem unidades;
+        quantidades personalizadas, sabores disponíveis e valores finais serão apresentados no
+        WhatsApp.
       </p>
 
       <div className="cart-scroll mt-6 min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pr-2">
@@ -61,6 +62,7 @@ function InterestPanel({ selectedItems, orderUrl, onRemoveItem }: InterestPanelP
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-[#fff7e8]">{item.name}</p>
                   <p className="mt-1 text-xs text-[#9f9583]">{categoryLabels[item.category]}</p>
+                  <p className="mt-1 text-xs font-bold text-[#d7b46a]">{item.price} o cento</p>
                 </div>
                 <button
                   type="button"
@@ -216,8 +218,9 @@ function App() {
                     Escolha o que deseja consultar.
                   </h1>
                   <p className="mt-4 max-w-2xl text-base leading-7 text-[#bdb3a0] sm:mt-6">
-                    Selecione os produtos de interesse. Quantidades, sabores disponíveis e valores
-                    serão combinados pelo WhatsApp.
+                    Selecione os produtos de interesse. O preço do cento aparece como referência;
+                    quantidades personalizadas, sabores disponíveis e valores finais serão
+                    apresentados no WhatsApp.
                   </p>
                 </div>
 
@@ -244,7 +247,14 @@ function App() {
                   </div>
 
                   <div className="rounded-lg border border-[#2f281d] bg-[#11100d]/80 p-4">
-                    <div className="flex items-center justify-between gap-4 text-sm font-bold">
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#d7b46a]">
+                      Como funciona
+                    </p>
+                    <p className="mt-2 text-sm leading-6 text-[#bdb3a0]">
+                      Marque os itens desejados. Quantidade, sabores disponíveis e valores finais
+                      são apresentados no WhatsApp.
+                    </p>
+                    <div className="mt-3 flex items-center justify-between gap-4 text-sm font-bold">
                       <span className="text-[#bdb3a0]">Itens selecionados</span>
                       <span className="text-[#d7b46a]">{selectedItems.length}</span>
                     </div>
@@ -289,7 +299,7 @@ function App() {
                   </p>
                   <h2 className="mt-3 font-serif text-4xl text-[#fff7e8]">{featuredItem.name}</h2>
                   <p className="mt-2 text-sm leading-6 text-[#d8cfbf]">
-                    Quantidade, sabores e valores pelo WhatsApp
+                    {featuredItem.price} o cento · opções personalizadas no WhatsApp
                   </p>
                   <div className="mt-5 flex gap-2">
                     {menuItems.map((item, index) => (
@@ -351,7 +361,9 @@ function App() {
                       </div>
 
                       <p className="pt-4 text-sm leading-6 text-[#bdb3a0]">
-                        Consulte sabores, quantidades e valores.
+                        <span className="font-bold text-[#d7b46a]">{item.price} o cento.</span>{" "}
+                        Quantidades personalizadas e sabores disponíveis são apresentados no
+                        WhatsApp.
                       </p>
 
                       <button
