@@ -1,0 +1,10 @@
+<svg width="640" height="640" viewBox="0 0 640 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">D'Glauci Doces e Salgados</title>
+  <desc id="desc">Logo D'Glauci com fundo laranja, chapéu de chef branco e nome da marca.</desc>
+  <rect width="640" height="640" fill="#F5820B"/>
+  <path d="M207 237c-28 0-45-11-46-30-2-25 22-43 63-43 36 0 59-17 88-50 27-31 59-46 94-39 33 7 57 34 52 69-3 23-17 43-42 59l18 56c-70-4-128 3-177 20 23-22 67-39 132-51l-7-26c-59-7-113 4-175 35Z" fill="white"/>
+  <path d="M224 200c45-13 65-34 88-63 29-36 68-45 98-31 19 9 29 26 27 44-2 19-13 36-33 49 3-22 2-39-7-52 1 22-5 37-21 48-6-25-14-42-26-52 9 20 12 39 8 57-50 1-94 10-134 28l-34 16 34-44Z" fill="#F5820B"/>
+  <path d="M271 267c45-15 93-22 145-20l-5-16c-65 3-117 16-156 39l16-3Z" fill="#F5820B"/>
+  <text x="320" y="411" text-anchor="middle" fill="white" font-family="Georgia, 'Times New Roman', serif" font-size="78" letter-spacing="3">D'GLAUCI</text>
+  <text x="320" y="463" text-anchor="middle" fill="white" font-family="Georgia, 'Times New Roman', serif" font-size="27" letter-spacing="22">Doces e Salgados</text>
+</svg>
