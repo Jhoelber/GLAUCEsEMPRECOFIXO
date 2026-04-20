@@ -286,17 +286,6 @@ function App() {
                   Salgados fritos, assados e doces vendidos em cento. Selecione quantidades e envie
                   o pedido pelo WhatsApp.
                 </p>
-                <div className="mt-7 flex flex-wrap items-center gap-3">
-                  <a
-                    href={orderUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="rounded-lg bg-[#d7b46a] px-5 py-3 text-sm font-black text-[#0b0a08] transition hover:bg-[#f0ca79]"
-                  >
-                    Fazer pedido no WhatsApp
-                  </a>
-                  <p className="text-sm text-[#9f9583]">(43) 9 8801-2398</p>
-                </div>
               </div>
 
               <div className="hidden gap-3 sm:grid">
