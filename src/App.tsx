@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Analytics } from "@vercel/analytics/react";
 import { categoryLabels, menuItems, type Category, type MenuItem } from "./menu";
 
@@ -80,40 +80,44 @@ function OrderPanel({
         Consulte os sabores após enviar o pedido via WhatsApp.
       </p>
 
-      <div className="mt-6 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
+      <div className="cart-scroll mt-6 min-h-0 flex-1 space-y-2 overflow-y-auto overscroll-contain pr-2">
         {selectedItems.length > 0 ? (
           selectedItems.map(({ item, amount }) => (
-            <div key={getItemKey(item)} className="border-b border-[#2c261c] pb-3">
-              <div className="flex justify-between gap-4">
-                <p className="text-sm font-semibold text-[#fff7e8]">{item.name}</p>
-                <p className="text-sm font-black text-[#d7b46a]">{amount}x</p>
+            <div key={getItemKey(item)} className="border-b border-[#2c261c] pb-2">
+              <div className="flex justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-semibold text-[#fff7e8]">{item.name}</p>
+                  <p className="mt-1 text-xs text-[#9f9583]">
+                    {item.price} · {item.quantity}
+                  </p>
+                </div>
+                <p className="shrink-0 text-sm font-black text-[#d7b46a]">{amount}x</p>
               </div>
-              <p className="mt-1 text-xs text-[#9f9583]">
-                {item.price} · {item.quantity}
-              </p>
-              <div className="mt-3 grid grid-cols-[34px_minmax(0,1fr)_34px_auto] items-center gap-2">
+              <div className="mt-2 grid grid-cols-[30px_minmax(34px,1fr)_30px] items-center gap-2">
                 <button
                   type="button"
-                  className="h-8 rounded-lg border border-[#3b3325] bg-[#17140f] text-base font-black text-[#d7b46a]"
+                  className="h-8 rounded-md border border-[#3b3325] bg-[#17140f] text-sm font-black text-[#d7b46a]"
                   onClick={() => onChangeAmount(item, -1)}
                   aria-label={`Remover uma unidade de ${item.name}`}
                 >
                   -
                 </button>
-                <span className="flex h-8 items-center justify-center rounded-lg bg-[#0c0b09] text-sm font-black text-[#fff7e8]">
+                <span className="flex h-8 min-w-0 items-center justify-center rounded-md bg-[#0c0b09] text-sm font-black text-[#fff7e8]">
                   {amount}
                 </span>
                 <button
                   type="button"
-                  className="h-8 rounded-lg border border-[#d7b46a] bg-[#d7b46a] text-base font-black text-[#0b0a08]"
+                  className="h-8 rounded-md border border-[#d7b46a] bg-[#d7b46a] text-sm font-black text-[#0b0a08]"
                   onClick={() => onChangeAmount(item, 1)}
                   aria-label={`Adicionar uma unidade de ${item.name}`}
                 >
                   +
                 </button>
+              </div>
+              <div className="mt-2">
                 <button
                   type="button"
-                  className="h-8 rounded-lg border border-[#3b3325] px-3 text-xs font-bold text-[#bdb3a0]"
+                  className="h-8 w-full rounded-md border border-[#3b3325] px-2 text-xs font-bold text-[#bdb3a0] transition hover:border-[#d7b46a] hover:text-[#d7b46a]"
                   onClick={() => onRemoveItem(item)}
                 >
                   Remover
@@ -155,6 +159,7 @@ function App() {
   const [activeCategory, setActiveCategory] = useState<Category | "todos">("todos");
   const [selected, setSelected] = useState<Record<string, number>>({});
   const [cartOpen, setCartOpen] = useState(false);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
 
   const filteredItems = useMemo(() => {
     if (activeCategory === "todos") {
@@ -190,6 +195,15 @@ function App() {
     0,
   );
   const orderUrl = getOrderUrl(selectedItems);
+  const featuredItem = menuItems[featuredIndex];
+
+  useEffect(() => {
+    const interval = window.setInterval(() => {
+      setFeaturedIndex((current) => (current + 1) % menuItems.length);
+    }, 3800);
+
+    return () => window.clearInterval(interval);
+  }, []);
 
   const changeAmount = (item: MenuItem, delta: number) => {
     const key = getItemKey(item);
@@ -336,18 +350,38 @@ function App() {
 
           <div className="hidden min-h-full lg:block">
             <div className="relative h-full min-h-[520px] overflow-hidden rounded-lg border border-[#2f281d] bg-[#11100d]">
-              <img
-                src="/menu/p3-3.jpg"
-                alt="Mini pizza"
-                className="absolute inset-0 h-full w-full object-cover opacity-85"
-              />
+              {menuItems.map((item, index) => (
+                <img
+                  key={getItemKey(item)}
+                  src={item.image}
+                  alt={item.name}
+                  className={`absolute inset-0 h-full w-full object-cover transition duration-700 ${
+                    index === featuredIndex ? "opacity-85 scale-100" : "opacity-0 scale-[1.03]"
+                  }`}
+                />
+              ))}
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(8,8,6,0.05),rgba(8,8,6,0.72))]" />
               <div className="absolute bottom-0 left-0 right-0 p-7">
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#d7b46a]">
                   Destaque
                 </p>
-                <h2 className="mt-3 font-serif text-4xl text-[#fff7e8]">Mini Pizza</h2>
-                <p className="mt-2 text-sm leading-6 text-[#d8cfbf]">Cem unidades · R$ 100,00</p>
+                <h2 className="mt-3 font-serif text-4xl text-[#fff7e8]">{featuredItem.name}</h2>
+                <p className="mt-2 text-sm leading-6 text-[#d8cfbf]">
+                  {featuredItem.quantity} · {featuredItem.price}
+                </p>
+                <div className="mt-5 flex gap-2">
+                  {menuItems.map((item, index) => (
+                    <button
+                      key={`featured-${getItemKey(item)}`}
+                      type="button"
+                      className={`h-1.5 rounded-full transition ${
+                        index === featuredIndex ? "w-8 bg-[#d7b46a]" : "w-3 bg-[#fff7e8]/35"
+                      }`}
+                      onClick={() => setFeaturedIndex(index)}
+                      aria-label={`Mostrar ${item.name} no destaque`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -384,13 +418,13 @@ function App() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="flex min-h-52 flex-col p-3 sm:min-h-60 sm:p-5">
+                  <div className="grid min-h-60 grid-rows-[auto_1fr_auto] p-3 sm:min-h-60 sm:p-5">
                     <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-3">
-                      <div>
+                      <div className="min-h-18">
                         <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#d7b46a] sm:text-xs">
                           {categoryLabels[item.category]}
                         </p>
-                        <h3 className="mt-2 text-base font-semibold leading-snug text-[#fff7e8] sm:text-xl">
+                        <h3 className="mt-2 line-clamp-2 text-base font-semibold leading-snug text-[#fff7e8] sm:text-xl">
                           {item.name}
                         </h3>
                       </div>
@@ -399,15 +433,18 @@ function App() {
                       </p>
                     </div>
 
-                    <div className="mt-auto pt-4 sm:pt-5">
+                    <div className="pt-4 sm:pt-5">
                       <p className="text-sm text-[#bdb3a0] sm:text-base">{item.quantity}</p>
-                      {item.note ? (
-                        <p className="mt-2 inline-flex rounded-md border border-[#3b3325] px-2 py-1.5 text-xs font-bold text-[#9f9583] sm:mt-3 sm:px-3 sm:py-2 sm:text-sm">
-                          {item.note}
-                        </p>
-                      ) : null}
+                      <div className="mt-2 min-h-8 sm:mt-3 sm:min-h-10">
+                        {item.note ? (
+                          <p className="inline-flex rounded-md border border-[#3b3325] px-2 py-1.5 text-[11px] font-bold text-[#9f9583] sm:px-3 sm:py-2 sm:text-sm">
+                            {item.note}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
 
-                      <div className="mt-3 grid grid-cols-[36px_minmax(0,1fr)_36px] items-center gap-2 sm:mt-4 sm:grid-cols-[44px_minmax(0,1fr)_44px] sm:gap-3">
+                    <div className="mt-3 grid grid-cols-[36px_minmax(0,1fr)_36px] items-center gap-2 sm:grid-cols-[44px_minmax(0,1fr)_44px] sm:gap-3">
                         <button
                           type="button"
                           className="h-9 rounded-lg border border-[#3b3325] bg-[#17140f] text-lg font-black text-[#d7b46a] transition hover:border-[#d7b46a] sm:h-11 sm:text-xl"
@@ -427,7 +464,6 @@ function App() {
                         >
                           +
                         </button>
-                      </div>
                     </div>
                   </div>
                 </article>
@@ -436,7 +472,7 @@ function App() {
           </div>
         </div>
 
-        <aside className="hidden max-h-[calc(100vh-3rem)] self-start rounded-lg border border-[#2f281d] bg-[#11100d] p-5 shadow-[0_20px_44px_rgba(0,0,0,0.28)] lg:sticky lg:top-6 lg:block">
+        <aside className="hidden h-[calc(100vh-3rem)] max-h-[760px] min-h-[520px] self-start rounded-lg border border-[#2f281d] bg-[#11100d] p-5 shadow-[0_20px_44px_rgba(0,0,0,0.28)] lg:sticky lg:top-6 lg:block">
           <OrderPanel
             selectedItems={selectedItems}
             selectedCount={selectedCount}
