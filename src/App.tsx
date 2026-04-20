@@ -75,6 +75,9 @@ function OrderPanel({
       <p className="mt-3 text-sm leading-6 text-[#bdb3a0]">
         Escolha os itens e envie tudo em uma única mensagem.
       </p>
+      <p className="mt-2 text-sm leading-6 text-[#d7b46a]">
+        Consulte os sabores após enviar o pedido via WhatsApp.
+      </p>
 
       <div className="mt-6 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
         {selectedItems.length > 0 ? (
@@ -235,14 +238,24 @@ function App() {
                 </div>
               </div>
 
-              <a
-                href={orderUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="hidden rounded-lg border border-[#4a3c29] px-4 py-3 text-sm font-bold text-[#f5efe4] transition hover:border-[#d7b46a] hover:text-[#d7b46a] sm:inline-flex"
-              >
-                (43) 9 8801-2398
-              </a>
+              <div className="hidden items-center gap-3 sm:flex">
+                <a
+                  href={orderUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-lg border border-[#4a3c29] px-4 py-3 text-sm font-bold text-[#f5efe4] transition hover:border-[#d7b46a] hover:text-[#d7b46a]"
+                >
+                  (43) 9 8801-2398
+                </a>
+                <a
+                  href={orderUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="rounded-lg bg-[#d7b46a] px-4 py-3 text-sm font-black text-[#0b0a08] transition hover:bg-[#f0ca79]"
+                >
+                  Pedir no WhatsApp
+                </a>
+              </div>
             </header>
 
             <div className="grid gap-8 py-8 lg:grid-cols-[minmax(420px,660px)_minmax(260px,1fr)] lg:items-end lg:py-16">
@@ -257,6 +270,17 @@ function App() {
                   Salgados fritos, assados e doces vendidos em cento. Selecione quantidades e envie
                   o pedido pelo WhatsApp.
                 </p>
+                <div className="mt-7 flex flex-wrap items-center gap-3">
+                  <a
+                    href={orderUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-lg bg-[#d7b46a] px-5 py-3 text-sm font-black text-[#0b0a08] transition hover:bg-[#f0ca79]"
+                  >
+                    Fazer pedido no WhatsApp
+                  </a>
+                  <p className="text-sm text-[#9f9583]">(43) 9 8801-2398</p>
+                </div>
               </div>
 
               <div className="hidden gap-3 sm:grid">
@@ -339,7 +363,6 @@ function App() {
                 {filteredItems.length} opções para encomendar
               </h2>
             </div>
-            <p className="text-sm text-[#9f9583]">Valores conforme o PDF original.</p>
           </div>
 
           <div className="grid grid-cols-2 gap-3 md:gap-5 xl:grid-cols-3 2xl:grid-cols-4">
@@ -411,7 +434,7 @@ function App() {
           </div>
         </div>
 
-        <aside className="hidden max-h-[calc(100vh-3rem)] rounded-lg border border-[#2f281d] bg-[#11100d] p-5 shadow-[0_20px_44px_rgba(0,0,0,0.28)] lg:sticky lg:top-6 lg:block">
+        <aside className="hidden max-h-[calc(100vh-3rem)] self-start rounded-lg border border-[#2f281d] bg-[#11100d] p-5 shadow-[0_20px_44px_rgba(0,0,0,0.28)] lg:sticky lg:top-6 lg:block">
           <OrderPanel
             selectedItems={selectedItems}
             selectedCount={selectedCount}
